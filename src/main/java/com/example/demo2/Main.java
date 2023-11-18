@@ -6,6 +6,7 @@ import javafx.scene.Group;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -50,6 +51,15 @@ public class Main extends Application {
         line.setEndY(200);
         line.setStrokeWidth(5);
         root.getChildren().add(line);
+
+        // IMAGES
+        Image image = new Image(
+                "https://wiki.gentoo.org/images/thumb/b/b8/Larry-nefarius-v2.svg/300px-Larry-nefarius-v2.svg.png"
+        );
+        ImageView imageView = new ImageView(image);
+        imageView.setX(200);
+        imageView.setY(300);
+        root.getChildren().add(imageView);
 
         stage.setScene(scene);
         stage.show();
