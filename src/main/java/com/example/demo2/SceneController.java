@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
@@ -27,6 +28,11 @@ public class SceneController {
 
     @FXML
     private Scene scene;
+
+    @FXML private Scene gameScene;
+
+    @FXML
+    private Scene pausedScene;
 
     @FXML
     private Parent root;
@@ -55,24 +61,24 @@ public class SceneController {
 
     @FXML
     public void switchToGame(ActionEvent event) throws IOException {
+        gameIsRunning = true;
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("game-view.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
+        gameScene = scene;
 
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
                 switch (keyEvent.getCode()){
                     case ESCAPE -> {
-                        if(gameIsRunning){
-                            System.out.println("pause game eyus");
-                            pauseGame();
+                        System.out.println("paused game");
+                        pauseGame();
+                        try {
+                            switchToPausedScene();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
                         }
-                        else{
-                            System.out.println("resume");
-                            resumeGame();
-                        }
-
                     }
                     case Q -> {
                         try {
@@ -90,6 +96,40 @@ public class SceneController {
         stage.show();
     }
 
+    @FXML
+    private void switchToPausedScene() throws IOException{
+        gameIsRunning = false;
+        if(null == pausedScene){
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("paused-menu.fxml")));
+            scene = new Scene(root);
+            pausedScene = scene;
+        }else{
+            scene = pausedScene;
+        }
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (Objects.requireNonNull(keyEvent.getCode()) == KeyCode.ESCAPE) {
+                    try {
+                        switchToGameSceneFromPaused();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    private void switchToGameSceneFromPaused() throws IOException{
+        scene = gameScene;
+        stage.setScene(scene);
+        stage.show();
+        gameIsRunning = true;
+    }
+
 
     @FXML
     protected void onExitButtonClick() {
@@ -100,15 +140,11 @@ public class SceneController {
 
     @FXML
     private void pauseGame(){
-        System.out.println("test 1 ");
-        pausedLabel.setVisible(true);
         gameIsRunning = false;
     }
 
     @FXML
     private void resumeGame(){
-        System.out.println("test 2 ");
-        pausedLabel.setVisible(false);
         gameIsRunning = true;
     }
 
