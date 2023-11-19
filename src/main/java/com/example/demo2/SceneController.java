@@ -1,6 +1,5 @@
 package com.example.demo2;
 
-import com.almasb.fxgl.entity.action.Action;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -8,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
@@ -18,6 +18,12 @@ public class SceneController {
 
     @FXML
     private Stage stage;
+
+    @FXML
+    private boolean gameIsRunning = false;
+
+    @FXML
+    private javafx.scene.control.Label pausedLabel = new Label();
 
     @FXML
     private Scene scene;
@@ -57,7 +63,17 @@ public class SceneController {
             @Override
             public void handle(KeyEvent keyEvent) {
                 switch (keyEvent.getCode()){
-                    case ESCAPE -> System.out.println("pause");
+                    case ESCAPE -> {
+                        if(gameIsRunning){
+                            System.out.println("pause game eyus");
+                            pauseGame();
+                        }
+                        else{
+                            System.out.println("resume");
+                            resumeGame();
+                        }
+
+                    }
                     case Q -> {
                         try {
                             switchToMainMenuFromGame();
@@ -65,8 +81,8 @@ public class SceneController {
                             throw new RuntimeException(e);
                         }
                     }
-                    case KP_UP -> System.out.println("creating bridge");
-                    case KP_DOWN -> System.out.println("switching sides");
+                    case C -> System.out.println("creating bridge");
+                    case X -> System.out.println("switching sides");
                 }
             }
         });
@@ -80,6 +96,22 @@ public class SceneController {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
     }
+
+
+    @FXML
+    private void pauseGame(){
+        System.out.println("test 1 ");
+        pausedLabel.setVisible(true);
+        gameIsRunning = false;
+    }
+
+    @FXML
+    private void resumeGame(){
+        System.out.println("test 2 ");
+        pausedLabel.setVisible(false);
+        gameIsRunning = true;
+    }
+
 
 
 }
