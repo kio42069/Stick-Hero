@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -20,7 +21,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Group root = new Group();
-        Scene scene = new Scene(root, 600, 600, Color.LIGHTSKYBLUE);
+        Scene scene = new Scene(root, 540, 966, Color.LIGHTSKYBLUE);
 
 //        Image icon = new Image("");
 //        stage.getIcons().add(icon);
@@ -46,9 +47,9 @@ public class Main extends Application {
         // LINES
         Line line = new Line();
         line.setStartX(0);
-        line.setStartY(100);
-        line.setEndX(700);
-        line.setEndY(200);
+        line.setStartY(150);
+        line.setEndX(966);
+        line.setEndY(300);
         line.setStrokeWidth(5);
         root.getChildren().add(line);
 
@@ -60,6 +61,14 @@ public class Main extends Application {
         imageView.setX(200);
         imageView.setY(300);
         root.getChildren().add(imageView);
+
+        Rectangle rectangle = new Rectangle();
+        rectangle.setX(180);
+        rectangle.setY(666);
+        rectangle.setWidth(180);
+        rectangle.setHeight(300);
+        root.getChildren().add(rectangle);
+
 
         stage.setScene(scene);
         stage.show();
