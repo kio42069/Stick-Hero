@@ -5,11 +5,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1202.0" prefWidth="696.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.Menu">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="966.0" prefWidth="540.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.Menu">
    <children>
-      <Button layoutX="249.0" layoutY="322.0" mnemonicParsing="false" onAction="#onPlayButtonClick" prefHeight="130.0" prefWidth="199.0" text="Play" />
-      <Button fx:id="closeButton" layoutX="250.0" layoutY="484.0" mnemonicParsing="false" onAction="#onExitButtonClick" prefHeight="136.0" prefWidth="199.0" text="Exit" />
-      <Label layoutX="217.0" layoutY="127.0" text="Stick Hero">
+      <Button layoutX="171.0" layoutY="324.0" mnemonicParsing="false" onAction="#onPlayButtonClick" prefHeight="130.0" prefWidth="199.0" text="Play" />
+      <Button fx:id="closeButton" layoutX="171.0" layoutY="483.0" mnemonicParsing="false" onAction="#onExitButtonClick" prefHeight="136.0" prefWidth="199.0" text="Exit" />
+      <Label layoutX="139.0" layoutY="121.0" text="Stick Hero">
          <font>
             <Font size="55.0" />
          </font>
