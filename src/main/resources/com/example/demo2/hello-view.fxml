@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="966.0" prefWidth="540.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.Menu">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="966.0" prefWidth="540.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.SceneController">
    <children>
-      <Button layoutX="171.0" layoutY="324.0" mnemonicParsing="false" onAction="#onPlayButtonClick" prefHeight="130.0" prefWidth="199.0" text="Play" />
+      <Button layoutX="171.0" layoutY="324.0" mnemonicParsing="false" onAction="#switchToScene2" prefHeight="130.0" prefWidth="199.0" text="Play" />
       <Button fx:id="closeButton" layoutX="171.0" layoutY="483.0" mnemonicParsing="false" onAction="#onExitButtonClick" prefHeight="136.0" prefWidth="199.0" text="Exit" />
       <Label layoutX="139.0" layoutY="121.0" text="Stick Hero">
          <font>
