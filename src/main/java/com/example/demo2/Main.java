@@ -1,12 +1,15 @@
 package com.example.demo2;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -17,9 +20,9 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Group root = new Group();
-        Scene scene = new Scene(root, 540, 966, Color.LIGHTSKYBLUE);
+        Scene scene = new Scene(root, 600, 600, Color.LIGHTSKYBLUE);
 
-//        Image icon = new Image("cow.png");
+//        Image icon = new Image("");
 //        stage.getIcons().add(icon);
 
         stage.setTitle("Stick Hero");
@@ -44,18 +47,19 @@ public class Main extends Application {
         Line line = new Line();
         line.setStartX(0);
         line.setStartY(100);
-        line.setEndX(900);
+        line.setEndX(700);
         line.setEndY(200);
         line.setStrokeWidth(5);
         root.getChildren().add(line);
 
-        //rectangle
-        Rectangle rectangle = new Rectangle();
-        rectangle.setX(180);
-        rectangle.setY(666);
-        rectangle.setWidth(180);
-        rectangle.setHeight(300);
-        root.getChildren().add(rectangle);
+        // IMAGES
+        Image image = new Image(
+                "https://wiki.gentoo.org/images/thumb/b/b8/Larry-nefarius-v2.svg/300px-Larry-nefarius-v2.svg.png"
+        );
+        ImageView imageView = new ImageView(image);
+        imageView.setX(200);
+        imageView.setY(300);
+        root.getChildren().add(imageView);
 
         stage.setScene(scene);
         stage.show();
