@@ -1,6 +1,8 @@
 package com.example.demo2;
 
+import com.almasb.fxgl.entity.action.Action;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -38,31 +40,39 @@ public class SceneController {
     }
 
     @FXML
-    public void switchToGame(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("game-view.fxml")));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    public void switchToMainMenuFromGame() throws IOException {
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("hello-view.fxml")));
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
 
-    
-    public void escapeDetect(KeyEvent event) throws IOException {
-        System.out.println("test");
-        switch (event.getCode()){
-            case ESCAPE -> System.out.println("test");
-            case Q -> {
-                root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("hello-view.fxml")));
-                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-                scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
-            }
-            case KP_UP -> System.out.println("creating bridge");
-            case KP_DOWN -> System.out.println("switching sides");
-        }
-    }
+    @FXML
+    public void switchToGame(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("game-view.fxml")));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
 
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                switch (keyEvent.getCode()){
+                    case ESCAPE -> System.out.println("pause");
+                    case Q -> {
+                        try {
+                            switchToMainMenuFromGame();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    case KP_UP -> System.out.println("creating bridge");
+                    case KP_DOWN -> System.out.println("switching sides");
+                }
+            }
+        });
+        stage.setScene(scene);
+        stage.show();
+    }
 
 
     @FXML
