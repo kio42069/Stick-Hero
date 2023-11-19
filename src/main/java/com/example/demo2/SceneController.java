@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -28,7 +29,7 @@ public class SceneController {
 
 
     @FXML
-    public void switchToScene1(ActionEvent event) throws IOException {
+    public void switchToMainMenu(ActionEvent event) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("hello-view.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -37,12 +38,29 @@ public class SceneController {
     }
 
     @FXML
-    public void switchToScene2(ActionEvent event) throws IOException {
+    public void switchToGame(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("game-view.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    
+    public void escapeDetect(KeyEvent event) throws IOException {
+        System.out.println("test");
+        switch (event.getCode()){
+            case ESCAPE -> System.out.println("test");
+            case Q -> {
+                root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("hello-view.fxml")));
+                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            }
+            case KP_UP -> System.out.println("creating bridge");
+            case KP_DOWN -> System.out.println("switching sides");
+        }
     }
 
 
