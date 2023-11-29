@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.SceneController">
+<AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.SceneController">
    <children>
-      <Label layoutX="191.0" layoutY="191.0" text="Game is paused. Press ESC to resume." />
+      <ImageView fitHeight="800.0" fitWidth="800.0">
+         <image>
+            <Image url="@images/paused.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="553.0" layoutY="14.0" text="Game is paused. Press ESC to resume." />
    </children>
 </AnchorPane>

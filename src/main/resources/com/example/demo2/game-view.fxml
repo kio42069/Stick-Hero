@@ -1,39 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="966.0" prefWidth="540.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.SceneController">
+<AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.SceneController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="200.0" layoutX="-47.0" layoutY="766.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="200.0" layoutX="350.0" layoutY="766.0" stroke="BLACK" strokeType="INSIDE" width="75.0" />
-      <Text layoutX="231.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Score">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Text>
-      <Text layoutX="259.0" layoutY="217.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3">
-         <font>
-            <Font size="40.0" />
-         </font>
-      </Text>
-      <Text layoutX="193.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="High Score">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Text>
-      <Text layoutX="247.0" layoutY="345.0" strokeType="OUTSIDE" strokeWidth="0.0" text="10">
-         <font>
-            <Font size="40.0" />
-         </font>
-      </Text>
-      <Text layoutX="410.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Press ESC to pause" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" height="85.0" layoutX="34.0" layoutY="681.0" stroke="BLACK" strokeType="INSIDE" width="88.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3f7204" height="41.0" layoutX="129.0" layoutY="672.0" rotate="-45.0" stroke="BLACK" strokeType="INSIDE" width="261.0" />
-      <Circle fill="#bf0202" layoutX="309.0" layoutY="810.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+      <ImageView fitHeight="800.0" fitWidth="800.0">
+         <image>
+            <Image url="@images/background.png" />
+         </image>
+      </ImageView>
+      <Text layoutX="670.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Press ESC to pause" />
    </children>
 </AnchorPane>
