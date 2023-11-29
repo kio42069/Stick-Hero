@@ -4,15 +4,19 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Objects;
 
 public class SceneController {
@@ -62,11 +66,26 @@ public class SceneController {
     @FXML
     public void switchToGame(ActionEvent event) throws IOException {
         gameIsRunning = true;
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("game-view.fxml")));
+//        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("game-view.fxml")));
+        Group group = new Group();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
+        scene = new Scene(group, 800, 800);
         gameScene = scene;
 
+        // BACKGROUND IMAGE
+        Image bgImage = new Image(Objects.requireNonNull(getClass().getResource("images/background.png")).toString());
+        ImageView bgImageView = new ImageView();
+        bgImageView.setImage(bgImage);
+        bgImageView.setX(0);bgImageView.setY(0);
+        bgImageView.setFitWidth(800);bgImageView.setFitHeight(800);
+
+        // CORNER TEXT FOR PAUSE
+
+        // RECTANGLE
+
+        // SPRITE
+
+        group.getChildren().add(bgImageView);
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
