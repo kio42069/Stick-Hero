@@ -13,6 +13,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -80,12 +83,33 @@ public class SceneController {
         bgImageView.setFitWidth(800);bgImageView.setFitHeight(800);
 
         // CORNER TEXT FOR PAUSE
+        Text cornerText = new Text();
+        cornerText.setText("Press ESC to pause");
+        cornerText.setX(600);
+        cornerText.setY(20);
+        cornerText.setFont(Font.font("Comic Sans", 20));
 
         // RECTANGLE
+        Rectangle pillar = new Rectangle();
+        pillar.setX(20);
+        pillar.setY(500);
+        pillar.setWidth(170);
+        pillar.setHeight(400);
 
         // SPRITE
+        Image spriteImage = new Image(Objects.requireNonNull(getClass().getResource("images/sprite_0.png")).toString());
+        ImageView spriteImageView = new ImageView();
+        spriteImageView.setImage(spriteImage);
+        spriteImageView.setX(140);spriteImageView.setY(440);
+        spriteImageView.setFitWidth(60);spriteImageView.setFitHeight(60);
+
 
         group.getChildren().add(bgImageView);
+        group.getChildren().add(cornerText);
+        group.getChildren().add(pillar);
+        group.getChildren().add(spriteImageView);
+
+
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
