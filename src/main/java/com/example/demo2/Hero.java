@@ -1,8 +1,30 @@
 package com.example.demo2;
 
-public class Hero {
+import javafx.scene.image.ImageView;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Translate;
+
+public class Hero extends ImageView {
     private double xCoord;
     private double yCoord;
+
+    private HeroFlipState heroFlipState = HeroFlipState.STRAIGHT;
+
+    public void flip(){
+
+        Translate flipTranslation = new Translate(0,this.getImage().getHeight());
+        Rotate verticalFlipRotation = new Rotate(180, Rotate.X_AXIS);
+
+        if(heroFlipState == HeroFlipState.STRAIGHT){
+            heroFlipState = HeroFlipState.FLIPPED;
+            // TODO: translate downwards
+            this.getTransforms().addAll(flipTranslation, verticalFlipRotation);
+        }else{
+            // TODO: translate upwards
+            heroFlipState = HeroFlipState.STRAIGHT;
+            this.getTransforms().addAll(flipTranslation, verticalFlipRotation);
+        }
+    }
 
     public void move(){}
     public void fall(){}

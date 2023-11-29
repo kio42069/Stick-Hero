@@ -92,22 +92,25 @@ public class SceneController {
         // RECTANGLE
         Rectangle pillar = new Rectangle();
         pillar.setX(20);
-        pillar.setY(500);
+        pillar.setY(600);
         pillar.setWidth(170);
         pillar.setHeight(400);
 
         // SPRITE
         Image spriteImage = new Image(Objects.requireNonNull(getClass().getResource("images/sprite_0.png")).toString());
-        ImageView spriteImageView = new ImageView();
-        spriteImageView.setImage(spriteImage);
-        spriteImageView.setX(140);spriteImageView.setY(440);
-        spriteImageView.setFitWidth(60);spriteImageView.setFitHeight(60);
+        Hero heroImage = new Hero();
+        heroImage.setImage(spriteImage);
+        heroImage.setX(340);heroImage.setY(540);
+        heroImage.setFitWidth(60);heroImage.setFitHeight(60);
+        heroImage.toFront();
+
+
 
 
         group.getChildren().add(bgImageView);
         group.getChildren().add(cornerText);
         group.getChildren().add(pillar);
-        group.getChildren().add(spriteImageView);
+        group.getChildren().add(heroImage);
 
 
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -130,6 +133,7 @@ public class SceneController {
                             throw new RuntimeException(e);
                         }
                     }
+                    case F -> heroImage.flip();
                     case C -> System.out.println("creating bridge");
                     case X -> System.out.println("switching sides");
                 }
