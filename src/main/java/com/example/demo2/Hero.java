@@ -12,17 +12,16 @@ public class Hero extends ImageView {
 
     public void flip(){
 
-        Translate flipTranslation = new Translate(0,this.getImage().getHeight());
-        Rotate verticalFlipRotation = new Rotate(180, Rotate.X_AXIS);
-
         if(heroFlipState == HeroFlipState.STRAIGHT){
             heroFlipState = HeroFlipState.FLIPPED;
             // TODO: translate downwards
-            this.getTransforms().addAll(flipTranslation, verticalFlipRotation);
+            this.setScaleY(-1);
+            this.getTransforms().add(new Translate(0, -60));
         }else{
             // TODO: translate upwards
             heroFlipState = HeroFlipState.STRAIGHT;
-            this.getTransforms().addAll(flipTranslation, verticalFlipRotation);
+            this.setScaleY(1);
+            this.getTransforms().add(new Translate(0, 60));
         }
     }
 
