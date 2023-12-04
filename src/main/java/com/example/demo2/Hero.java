@@ -14,11 +14,11 @@ public class Hero extends ImageView {
 
         if(heroFlipState == HeroFlipState.STRAIGHT){
             heroFlipState = HeroFlipState.FLIPPED;
-            // TODO: translate downwards
+            this.setY(540);
             this.setScaleY(-1);
             this.getTransforms().add(new Translate(0, -60));
         }else{
-            // TODO: translate upwards
+            this.setY(540);
             heroFlipState = HeroFlipState.STRAIGHT;
             this.setScaleY(1);
             this.getTransforms().add(new Translate(0, 60));

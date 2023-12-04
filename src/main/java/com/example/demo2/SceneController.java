@@ -36,6 +36,8 @@ public class SceneController {
     @FXML
     private Scene scene;
 
+    boolean pressed = false;
+
     @FXML private Scene gameScene;
 
     @FXML
@@ -100,10 +102,14 @@ public class SceneController {
         Image spriteImage = new Image(Objects.requireNonNull(getClass().getResource("images/sprite_0.png")).toString());
         Hero heroImage = new Hero();
         heroImage.setImage(spriteImage);
-        heroImage.setX(340);heroImage.setY(540);
+        heroImage.setX(130);heroImage.setY(540);
         heroImage.setFitWidth(60);heroImage.setFitHeight(60);
         heroImage.toFront();
 
+        // STICK
+        Rectangle stick = new Rectangle();
+        stick.setX(150);stick.setY(550);
+        stick.setWidth(10);stick.setHeight(10);
 
 
 
@@ -111,7 +117,7 @@ public class SceneController {
         group.getChildren().add(cornerText);
         group.getChildren().add(pillar);
         group.getChildren().add(heroImage);
-
+        group.getChildren().add(stick);
 
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -133,15 +139,20 @@ public class SceneController {
                             throw new RuntimeException(e);
                         }
                     }
-                    case F -> heroImage.flip();
-                    case C -> System.out.println("creating bridge");
-                    case X -> System.out.println("switching sides");
+                    case X -> heroImage.flip();
+                    case C -> {
+                        System.out.println("heh");
+                        pressed = true;
+                    }
+                    default -> pressed = false;
                 }
             }
         });
         stage.setScene(scene);
         stage.show();
     }
+
+
 
     @FXML
     private void switchToPausedScene() throws IOException{
