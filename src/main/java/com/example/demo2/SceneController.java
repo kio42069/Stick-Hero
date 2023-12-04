@@ -144,6 +144,7 @@ public class SceneController {
                         System.out.println("heh");
                         pressed = true;
                     }
+                    // case M -> heroImage.move();
                     default -> pressed = false;
                 }
             }

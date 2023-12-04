@@ -1,8 +1,14 @@
 package com.example.demo2;
 
+import javafx.animation.TranslateTransition;
 import javafx.scene.image.ImageView;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
+import javafx.util.Duration;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Hero extends ImageView {
     private double xCoord;
@@ -25,7 +31,11 @@ public class Hero extends ImageView {
         }
     }
 
-    public void move(){}
+    public void move(){
+        TranslateTransition moveTransition = new TranslateTransition(Duration.millis(500), this);
+        moveTransition.setByX(100);
+        moveTransition.play();
+    }
     public void fall(){}
     public void switchSides(){}
     public void grabApple(){}
