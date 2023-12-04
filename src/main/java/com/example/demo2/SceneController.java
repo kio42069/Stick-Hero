@@ -107,8 +107,8 @@ public class SceneController {
         heroImage.toFront();
 
         // STICK
-        Rectangle stick = new Rectangle();
-        stick.setX(150);stick.setY(550);
+        Stick stick = new Stick();
+        stick.setX(180);stick.setY(600);
         stick.setWidth(10);stick.setHeight(10);
 
 
@@ -118,6 +118,18 @@ public class SceneController {
         group.getChildren().add(pillar);
         group.getChildren().add(heroImage);
         group.getChildren().add(stick);
+
+        scene.setOnKeyReleased(new EventHandler<KeyEvent>(){
+            @Override
+            public void handle(KeyEvent keyEvent){
+                pressed = false;
+                switch(keyEvent.getCode()){
+                    case C ->{
+                        stick.fallDown();
+                    }
+                }
+            }
+        });
 
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -141,11 +153,10 @@ public class SceneController {
                     }
                     case X -> heroImage.flip();
                     case C -> {
-                        System.out.println("heh");
+                        stick.increaseLength();
                         pressed = true;
                     }
                     // case M -> heroImage.move();
-                    default -> pressed = false;
                 }
             }
         });
