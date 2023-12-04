@@ -32,6 +32,7 @@ public class Hero extends ImageView {
     }
 
     public void move(){
+
         TranslateTransition moveTransition = new TranslateTransition(Duration.millis(500), this);
         moveTransition.setByX(100);
         moveTransition.play();
@@ -58,5 +59,25 @@ public class Hero extends ImageView {
 
     public void setyCoord(double yCoord) {
         this.yCoord = yCoord;
+    }
+}
+
+class heroMover extends Thread{
+
+    private Hero hero;
+
+    public heroMover(Hero hero){
+        this.hero = hero;
+    }
+
+    @Override
+    public void run(){
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        hero.move();
+
     }
 }

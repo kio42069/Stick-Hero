@@ -126,6 +126,9 @@ public class SceneController {
                 switch(keyEvent.getCode()){
                     case C ->{
                         stick.fallDown();
+                        heroMover heroMover1 = new heroMover(heroImage);
+//                        heroImage.move();
+                        heroMover1.start();
                     }
                 }
             }
