@@ -1,14 +1,16 @@
 package com.example.demo2;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
-
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class Hero extends ImageView {
     private double xCoord;
@@ -31,11 +33,35 @@ public class Hero extends ImageView {
         }
     }
 
-    public void move(){
-
+    public void move(double height, Stick stick, Rectangle pillar, Rectangle nextPillar) {
+        Hero hero = this;
         TranslateTransition moveTransition = new TranslateTransition(Duration.millis(500), this);
-        moveTransition.setByX(100);
+        moveTransition.setByX(height);
         moveTransition.play();
+        moveTransition.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                TranslateTransition moveBack = new TranslateTransition(Duration.millis(500), hero);
+                moveBack.setByX(-height);
+                moveBack.play();
+                TranslateTransition moveNextPillar = new TranslateTransition(Duration.millis(500), nextPillar);
+                moveNextPillar.setByX(-480);
+                moveNextPillar.play();
+                stick.setHeight(10);stick.setWidth(10);
+                stick.setX(180);stick.setY(600);
+                TranslateTransition movePillar = new TranslateTransition(Duration.millis(500), pillar);
+                movePillar.setByX(-height);
+                movePillar.play();
+                Rotate rotation = new Rotate();
+                rotation.setPivotX(180);
+                rotation.setPivotY(600);
+                stick.getTransforms().add(rotation);
+                Timeline timeline = new Timeline(
+                        new KeyFrame(Duration.ZERO, new KeyValue(rotation.angleProperty(), 0)),
+                        new KeyFrame(Duration.seconds(1), new KeyValue(rotation.angleProperty(), -90)));
+                timeline.play();
+            }
+        });
     }
     public void fall(){}
     public void switchSides(){}
@@ -59,25 +85,5 @@ public class Hero extends ImageView {
 
     public void setyCoord(double yCoord) {
         this.yCoord = yCoord;
-    }
-}
-
-class heroMover extends Thread{
-
-    private Hero hero;
-
-    public heroMover(Hero hero){
-        this.hero = hero;
-    }
-
-    @Override
-    public void run(){
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        hero.move();
-
     }
 }

@@ -19,8 +19,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Objects;
+import java.util.Random;
 
 public class SceneController {
 
@@ -68,6 +68,23 @@ public class SceneController {
         stage.show();
     }
 
+    public Rectangle createPillar(Group group){
+        Rectangle pillar = new Rectangle();
+        Random random = new Random();
+        pillar.setX(500);
+        pillar.setY(600);
+        pillar.setWidth(random.nextInt(20)*10);
+        pillar.setHeight(400);
+        group.getChildren().add(pillar);
+        return pillar;
+    }
+
+    // lil bro does not wanna work :madge:
+    public void resetPillars(Group group, Rectangle pillar, Rectangle nextPillar){
+        pillar = nextPillar;
+        nextPillar = createPillar(group);
+    }
+
     @FXML
     public void switchToGame(ActionEvent event) throws IOException {
         gameIsRunning = true;
@@ -76,6 +93,8 @@ public class SceneController {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(group, 800, 800);
         gameScene = scene;
+
+
 
         // BACKGROUND IMAGE
         Image bgImage = new Image(Objects.requireNonNull(getClass().getResource("images/background.png")).toString());
@@ -112,27 +131,28 @@ public class SceneController {
         stick.setWidth(10);stick.setHeight(10);
 
 
-
         group.getChildren().add(bgImageView);
         group.getChildren().add(cornerText);
         group.getChildren().add(pillar);
         group.getChildren().add(heroImage);
         group.getChildren().add(stick);
-
+        Rectangle nextPillar = createPillar(group);
         scene.setOnKeyReleased(new EventHandler<KeyEvent>(){
             @Override
             public void handle(KeyEvent keyEvent){
                 pressed = false;
                 switch(keyEvent.getCode()){
                     case C ->{
-                        stick.fallDown();
-                        heroMover heroMover1 = new heroMover(heroImage);
-//                        heroImage.move();
-                        heroMover1.start();
+                        stick.fallDown(heroImage, stick.getHeight(), pillar, nextPillar);
+                        resetPillars(group, pillar, nextPillar);
                     }
                 }
             }
         });
+
+        resetPillars(group, pillar, nextPillar);
+
+
 
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -159,7 +179,6 @@ public class SceneController {
                         stick.increaseLength();
                         pressed = true;
                     }
-                    // case M -> heroImage.move();
                 }
             }
         });
