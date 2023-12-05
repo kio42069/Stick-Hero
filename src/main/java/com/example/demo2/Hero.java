@@ -66,7 +66,7 @@ public class Hero extends ImageView {
                 stick.getTransforms().add(rotation);
                 Timeline timeline = new Timeline(
                         new KeyFrame(Duration.ZERO, new KeyValue(rotation.angleProperty(), 0)),
-                        new KeyFrame(Duration.seconds(1), new KeyValue(rotation.angleProperty(), -90)));
+                        new KeyFrame(Duration.millis(50), new KeyValue(rotation.angleProperty(), -90)));
                 timeline.play();
 
             }
