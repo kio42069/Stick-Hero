@@ -24,6 +24,21 @@ import java.util.Random;
 
 public class SceneController {
 
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
+
+    private GameState gameState = GameState.HERO_IDLE;
+
+    private Rectangle pillar = null;
+    private Rectangle nextPillar = null;
+    private Hero heroImage = null;
+    private Stick stick = null;
+
     @FXML
     private Stage stage;
 
@@ -69,20 +84,25 @@ public class SceneController {
     }
 
     public Rectangle createPillar(Group group){
-        Rectangle pillar = new Rectangle();
+        Rectangle ret = new Rectangle();
         Random random = new Random();
-        pillar.setX(500);
-        pillar.setY(600);
-        pillar.setWidth(random.nextInt(20)*10);
-        pillar.setHeight(400);
-        group.getChildren().add(pillar);
-        return pillar;
+        ret.setX(500);
+        ret.setY(600);
+        ret.setWidth(random.nextInt(20)*10);
+        ret.setHeight(400);
+        group.getChildren().add(ret);
+        return ret;
     }
 
     // lil bro does not wanna work :madge:
-    public void resetPillars(Group group, Rectangle pillar, Rectangle nextPillar){
-        pillar = nextPillar;
-        nextPillar = createPillar(group);
+    public void resetPillars(Group group){
+        this.pillar = this.nextPillar;
+        this.nextPillar = createPillar(group);
+    }
+
+    private void stickfall(Group grp){
+        stick.fallDown(heroImage, stick.getHeight(), pillar, nextPillar, this, grp);
+        gameState = GameState.HERO_IDLE;
     }
 
     @FXML
@@ -111,7 +131,7 @@ public class SceneController {
         cornerText.setFont(Font.font("Comic Sans", 20));
 
         // RECTANGLE
-        Rectangle pillar = new Rectangle();
+        pillar = new Rectangle();
         pillar.setX(20);
         pillar.setY(600);
         pillar.setWidth(170);
@@ -119,14 +139,14 @@ public class SceneController {
 
         // SPRITE
         Image spriteImage = new Image(Objects.requireNonNull(getClass().getResource("images/sprite_0.png")).toString());
-        Hero heroImage = new Hero();
+        heroImage = new Hero();
         heroImage.setImage(spriteImage);
         heroImage.setX(130);heroImage.setY(540);
         heroImage.setFitWidth(60);heroImage.setFitHeight(60);
         heroImage.toFront();
 
         // STICK
-        Stick stick = new Stick();
+        stick = new Stick();
         stick.setX(180);stick.setY(600);
         stick.setWidth(10);stick.setHeight(10);
 
@@ -136,21 +156,24 @@ public class SceneController {
         group.getChildren().add(pillar);
         group.getChildren().add(heroImage);
         group.getChildren().add(stick);
-        Rectangle nextPillar = createPillar(group);
+        nextPillar = createPillar(group);
         scene.setOnKeyReleased(new EventHandler<KeyEvent>(){
             @Override
             public void handle(KeyEvent keyEvent){
                 pressed = false;
                 switch(keyEvent.getCode()){
-                    case C ->{
-                        stick.fallDown(heroImage, stick.getHeight(), pillar, nextPillar);
-                        resetPillars(group, pillar, nextPillar);
+                    case SPACE ->{
+                        if(gameState == GameState.STICK_GROWING) {
+                            gameState = GameState.ANIMATION;
+                            stickfall(group);
+                        }
                     }
                 }
             }
         });
 
-        resetPillars(group, pillar, nextPillar);
+
+//        resetPillars(group, pillar, nextPillar);
 
 
 
@@ -175,9 +198,14 @@ public class SceneController {
                         }
                     }
                     case X -> heroImage.flip();
-                    case C -> {
-                        stick.increaseLength();
-                        pressed = true;
+                    case SPACE -> {
+                        if(gameState == GameState.HERO_IDLE || gameState == GameState.STICK_GROWING){
+                            gameState = GameState.STICK_GROWING;
+                            stick.increaseLength();
+                            pressed = true;
+                        } else if(gameState == GameState.HERO_MOVING){
+                            heroImage.flip();
+                        }
                     }
                 }
             }

@@ -6,6 +6,7 @@ import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
@@ -15,6 +16,14 @@ import javafx.util.Duration;
 public class Hero extends ImageView {
     private double xCoord;
     private double yCoord;
+
+    public HeroFlipState getHeroFlipState() {
+        return heroFlipState;
+    }
+
+    public void setHeroFlipState(HeroFlipState heroFlipState) {
+        this.heroFlipState = heroFlipState;
+    }
 
     private HeroFlipState heroFlipState = HeroFlipState.STRAIGHT;
 
@@ -33,25 +42,24 @@ public class Hero extends ImageView {
         }
     }
 
-    public void move(double height, Stick stick, Rectangle pillar, Rectangle nextPillar) {
+    private void moveBackAndResetPillars(double height, Stick stick, Rectangle pillar, Rectangle nextPillar, SceneController sc, Group grp){
+
         Hero hero = this;
-        TranslateTransition moveTransition = new TranslateTransition(Duration.millis(500), this);
-        moveTransition.setByX(height);
-        moveTransition.play();
-        moveTransition.setOnFinished(new EventHandler<ActionEvent>() {
+
+        TranslateTransition moveBack = new TranslateTransition(Duration.millis(500), this);
+        moveBack.setByX(-height);
+        moveBack.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event) {
-                TranslateTransition moveBack = new TranslateTransition(Duration.millis(500), hero);
-                moveBack.setByX(-height);
-                moveBack.play();
-                TranslateTransition moveNextPillar = new TranslateTransition(Duration.millis(500), nextPillar);
-                moveNextPillar.setByX(-480);
-                moveNextPillar.play();
+            public void handle(ActionEvent actionEvent) {
+                sc.resetPillars(grp);
+                sc.setGameState(GameState.HERO_IDLE);
+
+                if(hero.getHeroFlipState() == HeroFlipState.FLIPPED)
+                    hero.flip();
+
+                // stick stuff
                 stick.setHeight(10);stick.setWidth(10);
                 stick.setX(180);stick.setY(600);
-                TranslateTransition movePillar = new TranslateTransition(Duration.millis(500), pillar);
-                movePillar.setByX(-height);
-                movePillar.play();
                 Rotate rotation = new Rotate();
                 rotation.setPivotX(180);
                 rotation.setPivotY(600);
@@ -60,6 +68,37 @@ public class Hero extends ImageView {
                         new KeyFrame(Duration.ZERO, new KeyValue(rotation.angleProperty(), 0)),
                         new KeyFrame(Duration.seconds(1), new KeyValue(rotation.angleProperty(), -90)));
                 timeline.play();
+
+            }
+        });
+        moveBack.play();
+
+
+        // TODO: fix
+        TranslateTransition moveNextPillar = new TranslateTransition(Duration.millis(500), nextPillar);
+        moveNextPillar.setByX(-480);
+        moveNextPillar.play();
+
+        //
+        TranslateTransition movePillar = new TranslateTransition(Duration.millis(500), pillar);
+        movePillar.setByX(-height);
+        movePillar.play();
+
+
+    }
+
+
+    public void move(double height, Stick stick, Rectangle pillar, Rectangle nextPillar, SceneController sc, Group grp) {
+        sc.setGameState(GameState.HERO_MOVING);
+        Hero hero = this;
+        TranslateTransition moveTransition = new TranslateTransition(Duration.millis(500), this);
+        moveTransition.setByX(height);
+        moveTransition.play();
+        moveTransition.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                sc.setGameState(GameState.ANIMATION);
+                moveBackAndResetPillars(height, stick, pillar, nextPillar, sc, grp);
             }
         });
     }
