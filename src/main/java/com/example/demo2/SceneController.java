@@ -88,7 +88,7 @@ public class SceneController {
         Random random = new Random();
         ret.setX(500);
         ret.setY(600);
-        ret.setWidth(random.nextInt(20)*10);
+        ret.setWidth(random.nextInt(4,12)*10);
         ret.setHeight(400);
         group.getChildren().add(ret);
         return ret;
@@ -141,8 +141,8 @@ public class SceneController {
         Image spriteImage = new Image(Objects.requireNonNull(getClass().getResource("images/sprite_0.png")).toString());
         heroImage = new Hero();
         heroImage.setImage(spriteImage);
-        heroImage.setX(130);heroImage.setY(540);
-        heroImage.setFitWidth(60);heroImage.setFitHeight(60);
+        heroImage.setX(150);heroImage.setY(570);
+        heroImage.setFitWidth(30);heroImage.setFitHeight(30);
         heroImage.toFront();
 
         // STICK

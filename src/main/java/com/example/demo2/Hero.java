@@ -76,12 +76,12 @@ public class Hero extends ImageView {
 
         // TODO: fix
         TranslateTransition moveNextPillar = new TranslateTransition(Duration.millis(500), nextPillar);
-        moveNextPillar.setByX(-480);
+        moveNextPillar.setByX(-310-nextPillar.getWidth());
         moveNextPillar.play();
 
         //
         TranslateTransition movePillar = new TranslateTransition(Duration.millis(500), pillar);
-        movePillar.setByX(-height);
+        movePillar.setToX(-1000); //sometimes the pillars stack up without exiting screen so changed the arg from height to -1000
         movePillar.play();
 
 
