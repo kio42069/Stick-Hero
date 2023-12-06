@@ -65,6 +65,8 @@ public class SceneController {
     @FXML
     private javafx.scene.control.Button closeButton;
 
+    private boolean tester = true;
+
 
     @FXML
     public void switchToMainMenu(ActionEvent event) throws IOException {
@@ -100,9 +102,10 @@ public class SceneController {
         this.nextPillar = createPillar(group);
     }
 
-    private void stickfall(Group grp){
-        stick.fallDown(heroImage, stick.getHeight(), pillar, nextPillar, this, grp);
+    private boolean stickfall(Group grp){
+        boolean kekw = stick.fallDown(heroImage, stick.getHeight(), pillar, nextPillar, this, grp);
         gameState = GameState.HERO_IDLE;
+        return kekw;
     }
 
     @FXML
@@ -165,7 +168,15 @@ public class SceneController {
                     case SPACE ->{
                         if(gameState == GameState.STICK_GROWING) {
                             gameState = GameState.ANIMATION;
-                            stickfall(group);
+                            tester = stickfall(group);
+                            System.out.println(tester);
+//                            if(!tester){
+//                                try{
+//                                    switchToGameOverScene();
+//                                } catch (IOException e) {
+//                                    throw new RuntimeException(e);
+//                                }
+//                            }
                         }
                     }
                 }
@@ -210,6 +221,19 @@ public class SceneController {
                 }
             }
         });
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    private void switchToGameOverScene() throws IOException {
+        gameIsRunning = false;
+        if(null == pausedScene){
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("game-over-view.fxml")));
+            scene = new Scene(root);
+            pausedScene = scene;
+        }
+
         stage.setScene(scene);
         stage.show();
     }

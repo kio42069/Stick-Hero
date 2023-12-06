@@ -21,10 +21,12 @@ public class Stick extends Rectangle {
         this.setHeight(10);
     }
 
-    public void fallDown(Hero hero, double height, Rectangle pillar, Rectangle nextPillar, SceneController sc, Group grp){
+    public boolean fallDown(Hero hero, double height, Rectangle pillar, Rectangle nextPillar, SceneController sc, Group grp){
 //        RotateTransition fallTransition = new RotateTransition(Duration.millis(500), this);
 //        fallTransition.setByAngle(90);
 //        fallTransition.play();
+
+        final boolean[] kekw = new boolean[1];
 
         Stick stick = this;
         Rotate rotation = new Rotate();
@@ -37,10 +39,12 @@ public class Stick extends Rectangle {
         timeline.setOnFinished(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event){
-                hero.move(height, stick, pillar, nextPillar, sc, grp);
+                kekw[0] = hero.move(height, stick, pillar, nextPillar, sc, grp);
             }
         });
         timeline.play();
+
+        return kekw[0];
 
 
     }

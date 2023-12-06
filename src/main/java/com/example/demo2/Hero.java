@@ -42,8 +42,9 @@ public class Hero extends ImageView {
         }
     }
 
-    private void moveBackAndResetPillars(double height, Stick stick, Rectangle pillar, Rectangle nextPillar, SceneController sc, Group grp){
+    private boolean moveBackAndResetPillars(double height, Stick stick, Rectangle pillar, Rectangle nextPillar, SceneController sc, Group grp){
 
+        double ogStickLength = stick.getHeight();
         Hero hero = this;
 
         TranslateTransition moveBack = new TranslateTransition(Duration.millis(500), this);
@@ -84,23 +85,33 @@ public class Hero extends ImageView {
         movePillar.setToX(-1000); //sometimes the pillars stack up without exiting screen so changed the arg from height to -1000
         movePillar.play();
 
+        System.out.println();
+        System.out.println();
+
+        if((180+ogStickLength < nextPillar.getX()) || (180+ogStickLength > nextPillar.getWidth()+nextPillar.getX())){
+            System.out.println("LMFAO");
+            return false;
+        }
+    return true;
 
     }
 
 
-    public void move(double height, Stick stick, Rectangle pillar, Rectangle nextPillar, SceneController sc, Group grp) {
+    public boolean move(double height, Stick stick, Rectangle pillar, Rectangle nextPillar, SceneController sc, Group grp) {
         sc.setGameState(GameState.HERO_MOVING);
         Hero hero = this;
         TranslateTransition moveTransition = new TranslateTransition(Duration.millis(500), this);
         moveTransition.setByX(height);
         moveTransition.play();
+        final boolean[] kekw = new boolean[1];
         moveTransition.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 sc.setGameState(GameState.ANIMATION);
-                moveBackAndResetPillars(height, stick, pillar, nextPillar, sc, grp);
+                kekw[0] = moveBackAndResetPillars(height, stick, pillar, nextPillar, sc, grp);
             }
         });
+        return kekw[0];
     }
     public void fall(){}
     public void switchSides(){}
