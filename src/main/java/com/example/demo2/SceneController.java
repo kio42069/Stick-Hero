@@ -24,6 +24,19 @@ import java.util.Random;
 
 public class SceneController {
 
+    // TODO: death
+    // TODO: death screen
+    // TODO: cherries
+    // TODO: score
+
+    // TODO: "poisonous cherries"
+
+    public Group globalGroup;
+
+    public void createNewStick(){
+        this.stick = new Stick();
+    }
+
     public GameState getGameState() {
         return gameState;
     }
@@ -37,6 +50,15 @@ public class SceneController {
     private Rectangle pillar = null;
     private Rectangle nextPillar = null;
     private Hero heroImage = null;
+
+    public Stick getStick() {
+        return stick;
+    }
+
+    public void setStick(Stick stick) {
+        this.stick = stick;
+    }
+
     private Stick stick = null;
 
     @FXML
@@ -84,11 +106,12 @@ public class SceneController {
     }
 
     public Rectangle createPillar(Group group){
+        // should end at 190 after animation
         Rectangle ret = new Rectangle();
         Random random = new Random();
-        ret.setX(500);
+        ret.setX(300+random.nextInt(200));
         ret.setY(600);
-        ret.setWidth(random.nextInt(20)*10);
+        ret.setWidth(70+random.nextInt(130));
         ret.setHeight(400);
         group.getChildren().add(ret);
         return ret;
@@ -110,6 +133,7 @@ public class SceneController {
         gameIsRunning = true;
 //        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("game-view.fxml")));
         Group group = new Group();
+        this.globalGroup = group;
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(group, 800, 800);
         gameScene = scene;
@@ -146,9 +170,9 @@ public class SceneController {
         heroImage.toFront();
 
         // STICK
-        stick = new Stick();
-        stick.setX(180);stick.setY(600);
-        stick.setWidth(10);stick.setHeight(10);
+        createNewStick();
+//        stick.setX(180);stick.setY(600);
+//        stick.setWidth(10);stick.setHeight(10);
 
 
         group.getChildren().add(bgImageView);

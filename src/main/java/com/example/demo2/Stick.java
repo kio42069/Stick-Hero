@@ -12,6 +12,15 @@ import javafx.util.Duration;
 
 public class Stick extends Rectangle {
 
+    Stick(){
+        super();
+        this.setX(180);
+        this.setY(600);
+        this.setWidth(10);
+        this.setHeight(10);
+    }
+
+
     public void increaseLength(){
         this.setY(this.getY() - 10);
         this.setHeight(this.getHeight() + 10);

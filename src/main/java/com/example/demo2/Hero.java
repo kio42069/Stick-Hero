@@ -57,44 +57,60 @@ public class Hero extends ImageView {
                 if(hero.getHeroFlipState() == HeroFlipState.FLIPPED)
                     hero.flip();
 
+                // CREATE NEW STICK
+                sc.createNewStick();
+                sc.globalGroup.getChildren().add(sc.getStick());
+
                 // stick stuff
-                stick.setHeight(10);stick.setWidth(10);
-                stick.setX(180);stick.setY(600);
-                Rotate rotation = new Rotate();
-                rotation.setPivotX(180);
-                rotation.setPivotY(600);
-                stick.getTransforms().add(rotation);
-                Timeline timeline = new Timeline(
-                        new KeyFrame(Duration.ZERO, new KeyValue(rotation.angleProperty(), 0)),
-                        new KeyFrame(Duration.millis(50), new KeyValue(rotation.angleProperty(), -90)));
-                timeline.play();
+
+
+//                stick.setHeight(10);stick.setWidth(10);
+//                stick.setX(180);stick.setY(600);
+//                Rotate rotation = new Rotate();
+//                rotation.setPivotX(180);
+//                rotation.setPivotY(600);
+//                stick.getTransforms().add(rotation);
+//                Timeline timeline = new Timeline(
+//                        new KeyFrame(Duration.ZERO, new KeyValue(rotation.angleProperty(), 0)),
+//                        new KeyFrame(Duration.millis(50), new KeyValue(rotation.angleProperty(), -90)));
 
             }
         });
         moveBack.play();
 
+        int oldX = (int) nextPillar.getX();
+        int oldWidth = (int) nextPillar.getWidth();
 
-        // TODO: fix
         TranslateTransition moveNextPillar = new TranslateTransition(Duration.millis(500), nextPillar);
-        moveNextPillar.setByX(-480);
+        moveNextPillar.setByX(190 - oldX - oldWidth);
+        // old x = pillar.x
+        // new x = 190 - pillar.width
+        // new x - old x = 190 - pillar.x - pillar.width
         moveNextPillar.play();
 
         //
         TranslateTransition movePillar = new TranslateTransition(Duration.millis(500), pillar);
-        movePillar.setByX(-height);
+        movePillar.setByX(190 - oldX - oldWidth);
         movePillar.play();
 
+        // MOVE THE STICK
+        TranslateTransition stickMovement = new TranslateTransition(Duration.millis(500), stick);
+        stickMovement.setByX(190 - oldX - oldWidth);
+        stickMovement.play();
 
     }
 
 
     public void move(double height, Stick stick, Rectangle pillar, Rectangle nextPillar, SceneController sc, Group grp) {
+        // TODO: runtime checks for death
         sc.setGameState(GameState.HERO_MOVING);
         Hero hero = this;
         TranslateTransition moveTransition = new TranslateTransition(Duration.millis(500), this);
         moveTransition.setByX(height);
         moveTransition.play();
         moveTransition.setOnFinished(new EventHandler<ActionEvent>() {
+
+            // TODO: if the player finishes flipped, then definitely dead
             @Override
             public void handle(ActionEvent event) {
                 sc.setGameState(GameState.ANIMATION);
