@@ -61,6 +61,14 @@ public class SceneController {
 
     private Stick stick = null;
 
+    private Text scoreText;
+
+    private int score;
+
+    public void increaseScore(){
+        this.score++;
+    }
+
     @FXML
     private Stage stage;
 
@@ -154,6 +162,13 @@ public class SceneController {
         cornerText.setY(20);
         cornerText.setFont(Font.font("Comic Sans", 20));
 
+        // SCORE
+        scoreText = new Text();
+        scoreText.setText("SCORE: " + 0);
+        scoreText.setX(250); scoreText.setY(100);
+        scoreText.setFont(Font.font("Comic Sans", 60));
+
+
         // RECTANGLE
         pillar = new Rectangle();
         pillar.setX(20);
@@ -177,6 +192,7 @@ public class SceneController {
 
         group.getChildren().add(bgImageView);
         group.getChildren().add(cornerText);
+        group.getChildren().add(scoreText);
         group.getChildren().add(pillar);
         group.getChildren().add(heroImage);
         group.getChildren().add(stick);
@@ -190,6 +206,20 @@ public class SceneController {
                         if(gameState == GameState.STICK_GROWING) {
                             gameState = GameState.ANIMATION;
                             stickfall(group);
+                            scoreText.setText("SCORE: ");
+                            int stickHeight = (int)stick.getHeight() + (int)stick.getX();
+                            int pillarLowerBound = (int)nextPillar.getX();
+                            int pillarUpperBound = (int)nextPillar.getX() + (int)nextPillar.getWidth();
+                            System.out.println(stickHeight + " " + pillarLowerBound + " " + pillarUpperBound);
+                            if((stickHeight < pillarLowerBound) || (stickHeight > pillarUpperBound)){
+                                System.out.println("gameover");
+                                // TODO: thingies to be done here right here i tell ya kid
+                            }
+                            else {
+                                increaseScore();
+                                scoreText.setText("SCORE: " + score);
+                            }
+
                         }
                     }
                 }

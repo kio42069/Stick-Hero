@@ -1,12 +1,11 @@
 package com.example.demo2;
 
-import com.almasb.fxgl.entity.action.Action;
 import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
+
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
@@ -31,9 +30,6 @@ public class Stick extends Rectangle {
     }
 
     public void fallDown(Hero hero, double height, Rectangle pillar, Rectangle nextPillar, SceneController sc, Group grp){
-//        RotateTransition fallTransition = new RotateTransition(Duration.millis(500), this);
-//        fallTransition.setByAngle(90);
-//        fallTransition.play();
 
         Stick stick = this;
         Rotate rotation = new Rotate();
@@ -47,10 +43,13 @@ public class Stick extends Rectangle {
             @Override
             public void handle(ActionEvent event){
                 hero.move(height, stick, pillar, nextPillar, sc, grp);
+
+                int stickHeight = (int)stick.getHeight() + (int)stick.getX();
+                int pillarLowerBound = (int)nextPillar.getX();
+                int pillarUpperBound = (int)nextPillar.getX() + (int)nextPillar.getWidth();
             }
         });
         timeline.play();
-
 
     }
 
