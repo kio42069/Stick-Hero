@@ -161,7 +161,7 @@ public class SceneController {
         group.getChildren().add(stick);
         nextPillar = createPillar(group);
         scene.setOnKeyReleased(new EventHandler<KeyEvent>(){
-            @Overrideas
+            @Override
             public void handle(KeyEvent keyEvent){
                 pressed = false;
                 switch(keyEvent.getCode()){
@@ -170,13 +170,6 @@ public class SceneController {
                             gameState = GameState.ANIMATION;
                             tester = stickfall(group);
                             System.out.println(tester);
-//                            if(!tester){
-//                                try{
-//                                    switchToGameOverScene();
-//                                } catch (IOException e) {
-//                                    throw new RuntimeException(e);
-//                                }
-//                            }
                         }
                     }
                 }
