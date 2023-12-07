@@ -161,7 +161,7 @@ public class SceneController {
         group.getChildren().add(stick);
         nextPillar = createPillar(group);
         scene.setOnKeyReleased(new EventHandler<KeyEvent>(){
-            @Override
+            @Overrideas
             public void handle(KeyEvent keyEvent){
                 pressed = false;
                 switch(keyEvent.getCode()){
