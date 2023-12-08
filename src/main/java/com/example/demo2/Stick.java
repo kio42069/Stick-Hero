@@ -21,8 +21,9 @@ public class Stick extends Rectangle {
 
 
     public void increaseLength(){
-        this.setY(this.getY() - 10);
-        this.setHeight(this.getHeight() + 10);
+        int xx_hard_xx = 20;
+        this.setY(this.getY() - xx_hard_xx);
+        this.setHeight(this.getHeight() + xx_hard_xx);
     }
 
     private void reset(){
@@ -44,14 +45,6 @@ public class Stick extends Rectangle {
             public void handle(ActionEvent event){
                 hero.move(height, stick, pillar, nextPillar, sc, grp);
 
-                int stickHeight = (int)stick.getHeight() + (int)stick.getX();
-                int pillarLowerBound = (int)nextPillar.getX();
-                int pillarUpperBound = (int)nextPillar.getX() + (int)nextPillar.getWidth();
-                if((stickHeight < pillarLowerBound) || (stickHeight > pillarUpperBound)){
-                    System.out.println("i shall implement fxml here");
-                    // TODO: thingies to be done here right here i tell ya kid
-
-                }
             }
         });
         timeline.play();

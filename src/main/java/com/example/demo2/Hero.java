@@ -14,8 +14,6 @@ import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
 public class Hero extends ImageView {
-    private double xCoord;
-    private double yCoord;
 
     public HeroFlipState getHeroFlipState() {
         return heroFlipState;
@@ -113,32 +111,40 @@ public class Hero extends ImageView {
             // TODO: if the player finishes flipped, then definitely dead
             @Override
             public void handle(ActionEvent event) {
-                sc.setGameState(GameState.ANIMATION);
-                moveBackAndResetPillars(height, stick, pillar, nextPillar, sc, grp);
+                // check death here
+                boolean dead = false;
+
+                if (hero.getHeroFlipState() == HeroFlipState.FLIPPED) {
+                    dead = true;
+                }
+
+                int stickHeight = (int)stick.getHeight() + (int)stick.getX();
+                int pillarLowerBound = (int)nextPillar.getX();
+                int pillarUpperBound = (int)nextPillar.getX() + (int)nextPillar.getWidth();
+                System.out.println(stickHeight + " " + pillarLowerBound + " " + pillarUpperBound);
+
+                if((stickHeight < pillarLowerBound) || (stickHeight > pillarUpperBound)){
+                    dead = true;
+                } else {
+                    sc.increaseScore();
+                    sc.scoreText.setText("SCORE: " + sc.getScore());
+                }
+
+                if(dead){
+                    try {
+                        sc.switchToGameOverScene();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    // TODO: thingies to be done here right here i tell ya kid
+                }else{
+                    sc.setGameState(GameState.ANIMATION);
+                    moveBackAndResetPillars(height, stick, pillar, nextPillar, sc, grp);
+                }
             }
         });
     }
     public void fall(){}
-    public void switchSides(){}
     public void grabApple(){}
-    public void createStick(){}
-    public void increaseScore(){}
-    public void detectCollision(){}
-    public void detectIncorrectStickSize(){}
 
-    public double getxCoord() {
-        return xCoord;
-    }
-
-    public void setxCoord(double xCoord) {
-        this.xCoord = xCoord;
-    }
-
-    public double getyCoord() {
-        return yCoord;
-    }
-
-    public void setyCoord(double yCoord) {
-        this.yCoord = yCoord;
-    }
 }

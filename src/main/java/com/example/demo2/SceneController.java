@@ -31,11 +31,13 @@ public class SceneController {
     // TODO: REVIVAL HOLY SHIT
 
     // TODO: "poisonous cherries"
+    public StickGenerator stickGenerator = null;
 
     public Group globalGroup;
 
     public void createNewStick(){
-        this.stick = new Stick();
+        this.stick = stickGenerator.generateStick();
+        // OO
     }
 
     public GameState getGameState() {
@@ -62,9 +64,17 @@ public class SceneController {
 
     private Stick stick = null;
 
-    private Text scoreText;
+    public Text scoreText;
 
-    private static int score;
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    private int score = 0;
 
     public void increaseScore(){
         this.score++;
@@ -139,6 +149,7 @@ public class SceneController {
 
     @FXML
     public void switchToGame(ActionEvent event) throws IOException {
+        stickGenerator = StickGenerator.getInstance();
         gameIsRunning = true;
 //        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("game-view.fxml")));
         Group group = new Group();
@@ -205,27 +216,8 @@ public class SceneController {
                 switch(keyEvent.getCode()){
                     case SPACE ->{
                         if(gameState == GameState.STICK_GROWING) {
-                            gameState = GameState.ANIMATION;
                             stickfall(group);
-                            scoreText.setText("SCORE: ");
-                            int stickHeight = (int)stick.getHeight() + (int)stick.getX();
-                            int pillarLowerBound = (int)nextPillar.getX();
-                            int pillarUpperBound = (int)nextPillar.getX() + (int)nextPillar.getWidth();
-                            System.out.println(stickHeight + " " + pillarLowerBound + " " + pillarUpperBound);
-                            if((stickHeight < pillarLowerBound) || (stickHeight > pillarUpperBound)){
-                                System.out.println("gameover");
-                                try {
-                                    switchToGameOverScene();
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
-                                }
-                                // TODO: thingies to be done here right here i tell ya kid
-                            }
-                            else {
-                                increaseScore();
-                                scoreText.setText("SCORE: " + score);
-                            }
-
+                            gameState = GameState.ANIMATION;
                         }
                     }
                 }
@@ -276,7 +268,9 @@ public class SceneController {
     }
 
 
-    private void switchToGameOverScene() throws IOException {
+    public void switchToGameOverScene() throws IOException {
+
+        // TODO: revive and reset button
 
         gameIsRunning = false;
         if(null == pausedScene){
