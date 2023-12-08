@@ -8,6 +8,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,7 +28,7 @@ public class SceneController {
     // TODO: death
     // TODO: death screen
     // TODO: cherries
-    // TODO: score
+    // TODO: REVIVAL HOLY SHIT
 
     // TODO: "poisonous cherries"
 
@@ -63,7 +64,7 @@ public class SceneController {
 
     private Text scoreText;
 
-    private int score;
+    private static int score;
 
     public void increaseScore(){
         this.score++;
@@ -213,6 +214,11 @@ public class SceneController {
                             System.out.println(stickHeight + " " + pillarLowerBound + " " + pillarUpperBound);
                             if((stickHeight < pillarLowerBound) || (stickHeight > pillarUpperBound)){
                                 System.out.println("gameover");
+                                try {
+                                    switchToGameOverScene();
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
                                 // TODO: thingies to be done here right here i tell ya kid
                             }
                             else {
@@ -247,6 +253,7 @@ public class SceneController {
                     case Q -> {
                         try {
                             switchToMainMenuFromGame();
+                            score = 0;
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
@@ -268,6 +275,32 @@ public class SceneController {
         stage.show();
     }
 
+
+    private void switchToGameOverScene() throws IOException {
+
+        gameIsRunning = false;
+        if(null == pausedScene){
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("game-over-view.fxml")));
+            scene = new Scene(root);
+            pausedScene = scene;
+        }else{
+            scene = pausedScene;
+        }
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (Objects.requireNonNull(keyEvent.getCode()) == KeyCode.SPACE) {
+                    try {
+                        switchToMainMenuFromGame();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
+        stage.setScene(scene);
+        stage.show();
+    }
 
 
     @FXML

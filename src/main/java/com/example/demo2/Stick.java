@@ -47,6 +47,11 @@ public class Stick extends Rectangle {
                 int stickHeight = (int)stick.getHeight() + (int)stick.getX();
                 int pillarLowerBound = (int)nextPillar.getX();
                 int pillarUpperBound = (int)nextPillar.getX() + (int)nextPillar.getWidth();
+                if((stickHeight < pillarLowerBound) || (stickHeight > pillarUpperBound)){
+                    System.out.println("i shall implement fxml here");
+                    // TODO: thingies to be done here right here i tell ya kid
+
+                }
             }
         });
         timeline.play();
