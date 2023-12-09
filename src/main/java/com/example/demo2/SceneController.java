@@ -449,6 +449,7 @@ public class SceneController {
         clip.open(audioInputStream);
         clip.start();
         score = 0;
+        saveData.setCurrentScore(0);
         writeSaveData();
         gameIsRunning = false;
         if(null == gameOverScene){
