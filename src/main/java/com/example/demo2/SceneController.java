@@ -24,7 +24,7 @@ import java.util.Random;
 
 public class SceneController {
 
-    private SaveData saveData;
+    private SaveData saveData = new SaveData(0,0,0);
 
     private ObjectOutputStream saveOutput = null;
     private ObjectInputStream saveInput = null;
@@ -72,6 +72,7 @@ public class SceneController {
     }
 
     private int score = 0;
+    private int maxScore = 0;
 
     private Cherry cherry = new Cherry(-1000, new Group());
 
@@ -88,6 +89,8 @@ public class SceneController {
 
     public void increaseScore(){
         this.score++;
+        if(this.score > maxScore)
+            maxScore = this.score;
     }
 
     @FXML
@@ -204,10 +207,10 @@ public class SceneController {
         try {
             saveInput = new ObjectInputStream(new FileInputStream("testsave.bin"));
             saveData = (SaveData) saveInput.readObject();
-        } catch(FileNotFoundException e){
+        } catch (FileNotFoundException e){
             saveData = new SaveData(0,0,0);
         } catch (ClassNotFoundException e) {
-            System.err.println("Error in reading save file");
+            System.err.println("Error");
         } finally {
             if(saveInput != null)
                 saveInput.close();
@@ -322,7 +325,6 @@ public class SceneController {
                             throw new RuntimeException(e);
                         }
                     }
-                    case X -> heroImage.flip();
                     case SPACE -> {
                         if(gameState == GameState.HERO_IDLE || gameState == GameState.STICK_GROWING){
                             gameState = GameState.STICK_GROWING;
