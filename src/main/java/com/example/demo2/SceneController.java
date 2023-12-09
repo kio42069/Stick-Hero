@@ -72,7 +72,14 @@ public class SceneController {
     }
 
     private int score = 0;
+
     private int maxScore = 0;
+
+    public int getMaxScore() {
+        return maxScore;
+    }
+
+    public Text maxScoreText;
 
     private Cherry cherry = new Cherry(-1000, new Group());
 
@@ -248,6 +255,12 @@ public class SceneController {
         scoreText.setX(330); scoreText.setY(200);
         scoreText.setFont(Font.font("Comic Sans", 200));
 
+        // HIGH SCORE
+        maxScoreText = new Text();
+        maxScoreText.setText("MAX: " + 0);
+        maxScoreText.setX(600); maxScoreText.setY(90);
+        maxScoreText.setFont(Font.font("Comic Sans", 50));
+
         // CHERRY SCORE
         cherryScoreText = new Text();
         cherryScoreText.setText(Integer.toString(cherryScore));
@@ -280,13 +293,7 @@ public class SceneController {
         // STICK
         createNewStick();
 
-        group.getChildren().add(bgImageView);
-        group.getChildren().add(cornerText);
-        group.getChildren().add(scoreText);
-        group.getChildren().add(pillar);
-        group.getChildren().add(heroImage);
-        group.getChildren().add(stick);
-        group.getChildren().addAll(cherryImageView, cherryScoreText);
+        group.getChildren().addAll(bgImageView, cornerText, scoreText, pillar, heroImage, stick, cherryImageView, cherryScoreText, maxScoreText);
         checkCollisions();
         nextPillar = createPillar(group);
         scene.setOnKeyReleased(new EventHandler<KeyEvent>(){
@@ -297,7 +304,6 @@ public class SceneController {
                         if(gameState == GameState.STICK_GROWING) {
                             stickfall(group);
                             gameState = GameState.ANIMATION;
-                            System.out.println(cherryScore);
                         }
                     }
                 }

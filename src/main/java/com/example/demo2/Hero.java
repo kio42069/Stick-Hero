@@ -127,6 +127,7 @@ public class Hero extends ImageView {
                 } else {
                     sc.increaseScore();
                     sc.scoreText.setText(Integer.toString(sc.getScore()));
+                    sc.maxScoreText.setText("MAX: " +  sc.getMaxScore());
                 }
 
                 if(dead){
