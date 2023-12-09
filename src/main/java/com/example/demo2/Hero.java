@@ -9,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
@@ -41,7 +42,7 @@ public class Hero extends ImageView {
     }
 
     private void moveBackAndResetPillars(double height, Stick stick, Rectangle pillar, Rectangle nextPillar, SceneController sc, Group grp){
-
+        sc.hideCherry();
         Hero hero = this;
 
         TranslateTransition moveBack = new TranslateTransition(Duration.millis(500), this);
@@ -95,9 +96,7 @@ public class Hero extends ImageView {
         TranslateTransition stickMovement = new TranslateTransition(Duration.millis(500), stick);
         stickMovement.setByX(190 - oldX - oldWidth);
         stickMovement.play();
-
     }
-
 
     public void move(double height, Stick stick, Rectangle pillar, Rectangle nextPillar, SceneController sc, Group grp) {
         // TODO: runtime checks for death
@@ -106,6 +105,7 @@ public class Hero extends ImageView {
         TranslateTransition moveTransition = new TranslateTransition(Duration.millis(500), this);
         moveTransition.setByX(height);
         moveTransition.play();
+
         moveTransition.setOnFinished(new EventHandler<ActionEvent>() {
 
             // TODO: if the player finishes flipped, then definitely dead

@@ -1,24 +1,17 @@
 package com.example.demo2;
 
-public class Cherry {
-    private boolean collected = false;
-    private double distanceFromPlatform;
+import javafx.scene.Group;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
-    public void setCollected(){}
+import java.util.Objects;
 
-    public boolean isCollected() {
-        return collected;
-    }
-
-    public void setCollected(boolean collected) {
-        this.collected = collected;
-    }
-
-    public double getDistanceFromPlatform() {
-        return distanceFromPlatform;
-    }
-
-    public void setDistanceFromPlatform(double distanceFromPlatform) {
-        this.distanceFromPlatform = distanceFromPlatform;
+public class Cherry extends ImageView {
+    Cherry(double X, Group group){
+        this.setImage(new Image(Objects.requireNonNull(getClass().getResource("images/cherry.png")).toString()));
+        this.setX(X);
+        this.setY(610);
+        this.setFitHeight(30);this.setFitWidth(30);
+        group.getChildren().add(this);
     }
 }

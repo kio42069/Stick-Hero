@@ -10,7 +10,6 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -78,6 +77,12 @@ public class SceneController {
 
     private int score = 0;
 
+    private Cherry cherry = new Cherry(-1000, new Group());
+
+    private int cherryScore = 0;
+
+    private Text cherryScoreText = null;
+
     public void increaseScore(){
         this.score++;
     }
@@ -107,6 +112,22 @@ public class SceneController {
     @FXML
     private javafx.scene.control.Button closeButton;
 
+
+    public void hideCherry(){
+        cherry.toBack();
+    }
+
+    public Hero getHeroImage() {
+        return heroImage;
+    }
+
+    public Cherry getCherry() {
+        return cherry;
+    }
+
+    public int getCherryScore(){
+        return cherryScore;
+    }
 
     @FXML
     public void switchToMainMenu(ActionEvent event) throws IOException {
@@ -141,6 +162,8 @@ public class SceneController {
     public void resetPillars(Group group){
         this.pillar = this.nextPillar;
         this.nextPillar = createPillar(group);
+        Random random = new Random();
+        cherry = new Cherry(random.nextDouble(200, nextPillar.getX() - 40), group);
     }
 
     private void stickfall(Group grp){
@@ -166,7 +189,6 @@ public class SceneController {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(group, 800, 800);
         gameScene = scene;
-
 
 
         // BACKGROUND IMAGE
@@ -226,6 +248,7 @@ public class SceneController {
                         if(gameState == GameState.STICK_GROWING) {
                             stickfall(group);
                             gameState = GameState.ANIMATION;
+                            System.out.println(cherryScore);
                         }
                     }
                 }
