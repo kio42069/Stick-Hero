@@ -10,7 +10,9 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -104,11 +106,16 @@ public class SceneController {
     }
 
     private int cherryScore = 0;
+    @FXML
+    private int multiplier = 1;
 
+    @FXML
+    private Button easyMode;
 
     private Text cherryScoreText = null;
 
     public void increaseScore(){
+        System.out.println(multiplier);
         this.score++;
         deathScore = score;
         if(this.score > maxScore)
@@ -163,6 +170,8 @@ public class SceneController {
         return cherryScore;
     }
 
+
+
     private void checkCollisions() {
         javafx.animation.AnimationTimer timer = new javafx.animation.AnimationTimer() {
             @Override
@@ -195,7 +204,7 @@ public class SceneController {
 
                         cherry.setGrabbed(true);
                         cherry.setVisible(false);
-                        setCherryScore(cherryScore + 1);
+                        setCherryScore(cherryScore + multiplier);
                         cherryScoreText.setText(Integer.toString(cherryScore));
                     }
                 }
@@ -539,6 +548,19 @@ public class SceneController {
             writeSaveData();
             newGame(false, event);
         }
+    }
+
+    @FXML
+    private void toggleEasyMode(){
+        System.out.println("fn called");
+    if(multiplier == 1){
+        System.out.println("we");
+        multiplier = 2;
+    }
+    else{
+        System.out.println("nuh uh");
+        multiplier = 1;
+    }
     }
 
     private void readSaveData(){

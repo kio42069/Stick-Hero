@@ -26,5 +26,6 @@
             <Font size="37.0" />
          </font>
       </Button>
+      <Button fx:id="easyMode" layoutX="35.0" layoutY="36.0" mnemonicParsing="false" onAction="#toggleEasyMode" text="Button" />
    </children>
 </AnchorPane>
