@@ -18,11 +18,16 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.Objects;
 import java.util.Random;
 
 public class SceneController {
+
+    private SaveData saveData;
+
+    private ObjectOutputStream saveOutput = null;
+    private ObjectInputStream saveInput = null;
 
     public StickGenerator stickGenerator = null;
 
@@ -70,7 +75,14 @@ public class SceneController {
 
     private Cherry cherry = new Cherry(-1000, new Group());
 
+    public void setCherryScore(int cherryScore) {
+        this.cherryScore = cherryScore;
+        saveData.setCherries(cherryScore);
+        writeSaveData();
+    }
+
     private int cherryScore = 0;
+
 
     private Text cherryScoreText = null;
 
@@ -128,7 +140,7 @@ public class SceneController {
                     if(!cherry.isGrabbed()){
                         cherry.setGrabbed(true);
                         cherry.setVisible(false);
-                        cherryScore++;
+                        setCherryScore(cherryScore + 1);
                         cherryScoreText.setText(Integer.toString(cherryScore));
                     }
                 }
@@ -188,6 +200,22 @@ public class SceneController {
 
     @FXML
     public void switchToGame(ActionEvent event) throws IOException {
+
+        try {
+            saveInput = new ObjectInputStream(new FileInputStream("testsave.bin"));
+            saveData = (SaveData) saveInput.readObject();
+        } catch(FileNotFoundException e){
+            saveData = new SaveData(0,0,0);
+        } catch (ClassNotFoundException e) {
+            System.err.println("Error in reading save file");
+        } finally {
+            if(saveInput != null)
+                saveInput.close();
+        }
+
+        writeSaveData();
+        cherryScore = saveData.getCherries();
+
         stickGenerator = StickGenerator.getInstance();
         gameIsRunning = true;
         Group group = new Group();
@@ -308,6 +336,23 @@ public class SceneController {
         });
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void writeSaveData() {
+        try {
+            saveOutput = new ObjectOutputStream(new FileOutputStream("testsave.bin"));
+            saveOutput.writeObject(saveData);
+        } catch (IOException e) {
+            System.err.println("Error while writing save file");
+        } finally {
+            if(saveOutput != null) {
+                try {
+                    saveOutput.close();
+                } catch (IOException e) {
+                    System.err.println("Error in closing output stream");
+                }
+            }
+        }
     }
 
     public void switchToGameOverScene() throws IOException {

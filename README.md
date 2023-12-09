@@ -22,6 +22,7 @@ mvn clean javafx:run
 - Main: Main driver class
 - Menu: Main welcome screen of the game
 - SceneController: Main scene controller for the game scene, paused scene and end scenes
+- SaveData: serializable save data for the game.
 
 ### Visible objects
 - Platform: Class for platforms
@@ -42,5 +43,9 @@ mvn clean javafx:run
 ## JUnit tests
 
 - A JUnit test was used to check whether StickGenerator is singleton or not.
+
+## Saving
+
+- implemented in the SaveData class.
 
 ## Creative component

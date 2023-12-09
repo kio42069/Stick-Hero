@@ -1,6 +1,7 @@
 package com.example.demo2;
 
 public class StickGenerator {
+    // Design patterns: Factory and Singleton
     private static StickGenerator stickGenerator = null;
 
     public static StickGenerator getInstance(){

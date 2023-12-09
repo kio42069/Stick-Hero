@@ -11,7 +11,8 @@ import org.junit.runner.notification.Failure;
 import java.io.IOException;
 
 public class Main extends Application {
-    // TODO: threading, JUnit, Sound
+    // Design patterns used: Factory and Singleton
+    // See StickGenerator.java for more info
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("hello-view.fxml"));
