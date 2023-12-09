@@ -1,6 +1,6 @@
 # CSE201 Project: Stick Hero
 
-## Made by Rachit Arora (2022384) and Surat Sathi Samanta (2022517)
+## Made by Group 61, Rachit Arora (2022384) and Surat Sathi Samanta (2022517)
 
 ## How to run
 
@@ -46,6 +46,9 @@ mvn clean javafx:run
 
 ## Saving
 
-- implemented in the SaveData class.
+- Autosaving has been implemented (every time a state variable changes, the save file is rewritten)
+- Serialization implemented in the SaveData class.
 
 ## Creative component
+
+We made a "toggle easy mode" button, which allows you to get 2 cherries at once instead of just one. This makes it easier to revive.

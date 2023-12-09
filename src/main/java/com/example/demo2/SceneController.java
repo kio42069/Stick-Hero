@@ -115,7 +115,6 @@ public class SceneController {
     private Text cherryScoreText = null;
 
     public void increaseScore(){
-        System.out.println(multiplier);
         this.score++;
         deathScore = score;
         if(this.score > maxScore)
