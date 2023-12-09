@@ -122,6 +122,8 @@ public class SceneController {
     @FXML
     private Scene pausedScene;
 
+    private Scene gameOverScene;
+
     @FXML
     private Parent root;
 
@@ -156,6 +158,18 @@ public class SceneController {
                         cherry.setVisible(false);
                         setCherryScore(cherryScore + 1);
                         cherryScoreText.setText(Integer.toString(cherryScore));
+                    }
+                }
+                if(heroImage.getBoundsInParent().intersects(nextPillar.getBoundsInParent())){
+                    if(heroImage.getHeroFlipState() == HeroFlipState.FLIPPED){
+                        try {
+                            if(gameIsRunning){
+                                switchToGameOverScene();
+                                gameIsRunning = false;
+                            }
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
             }
@@ -213,6 +227,8 @@ public class SceneController {
     }
 
     private void newGame(boolean hasSave, ActionEvent event) throws IOException{
+
+        gameIsRunning = true;
 
         try {
             saveInput = new ObjectInputStream(new FileInputStream("testsave.bin"));
@@ -333,7 +349,6 @@ public class SceneController {
                     case ESCAPE -> {
                         if(gameState == GameState.HERO_IDLE){
                             System.out.println("paused game");
-                            pauseGame();
                             try {
                                 switchToPausedScene();
                             } catch (IOException e) {
@@ -393,12 +408,12 @@ public class SceneController {
         saveData.setCurrentScore(0);
         writeSaveData();
         gameIsRunning = false;
-        if(null == pausedScene){
+        if(null == gameOverScene){
             root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("game-over-view.fxml")));
             scene = new Scene(root);
-            pausedScene = scene;
+            gameOverScene = scene;
         }else{
-            scene = pausedScene;
+            scene = gameOverScene;
         }
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -444,10 +459,10 @@ public class SceneController {
 
     @FXML
     private void switchToGameSceneFromPaused() throws IOException{
+        gameIsRunning = true;
         scene = gameScene;
         stage.setScene(scene);
         stage.show();
-        gameIsRunning = true;
     }
 
     @FXML
