@@ -518,4 +518,7 @@ public class SceneController {
         newGame(false, event);
     }
 
+    @FXML
+    private void revive(){}
+
 }
