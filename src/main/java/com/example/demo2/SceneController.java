@@ -429,4 +429,16 @@ public class SceneController {
     private void resumeGame(){
         gameIsRunning = true;
     }
+
+    @FXML
+    private void saveProgress(){
+        writeSaveData();
+        System.out.println("game saved");
+    }
+
+    @FXML
+    private void loadGame(){
+        System.out.println("game loaded");
+    }
+
 }
