@@ -32,10 +32,21 @@ public class SaveData implements Serializable {
 
     private int cherries = 0;
 
-    SaveData(int maxScore, int currentScore, int cherries){
+    public int getDeathScore() {
+        return deathScore;
+    }
+
+    public void setDeathScore(int deathScore) {
+        this.deathScore = deathScore;
+    }
+
+    private int deathScore = 0;
+
+    SaveData(int maxScore, int currentScore, int cherries, int deathScore){
         this.cherries = cherries;
         this.maxScore = maxScore;
         this.currentScore = currentScore;
+        this.deathScore = deathScore;
     }
 
 }

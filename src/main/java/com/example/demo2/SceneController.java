@@ -28,7 +28,7 @@ import java.util.Random;
 
 public class SceneController {
 
-    private SaveData saveData = new SaveData(0,0,0);
+    private SaveData saveData = new SaveData(0,0,0, 0);
 
     private ObjectOutputStream saveOutput = null;
     private ObjectInputStream saveInput = null;
@@ -110,9 +110,11 @@ public class SceneController {
 
     public void increaseScore(){
         this.score++;
+        deathScore = score;
         if(this.score > maxScore)
             maxScore = this.score;
         saveData.setCurrentScore(score);
+        saveData.setDeathScore(deathScore);
         saveData.setMaxScore(maxScore);
         writeSaveData();
     }
@@ -271,7 +273,7 @@ public class SceneController {
             saveInput = new ObjectInputStream(new FileInputStream("testsave.bin"));
             saveData = (SaveData) saveInput.readObject();
         } catch (FileNotFoundException e){
-            saveData = new SaveData(0,0,0);
+            saveData = new SaveData(0,0,0, 0);
         } catch (ClassNotFoundException e) {
             System.err.println("Error");
         } catch (IOException e) {
@@ -446,9 +448,7 @@ public class SceneController {
         Clip clip = AudioSystem.getClip();
         clip.open(audioInputStream);
         clip.start();
-        deathScore = score;
         score = 0;
-        saveData.setCurrentScore(0);
         writeSaveData();
         gameIsRunning = false;
         if(null == gameOverScene){
@@ -531,12 +531,34 @@ public class SceneController {
 
     @FXML
     private void revive(ActionEvent event) throws IOException {
-        System.out.println("balls");
+        readSaveData();
         if(saveData.getCherries() >= 10){
-            saveData.setCurrentScore(deathScore);
-            saveData.setCherries(cherryScore);
+            saveData.setCherries(saveData.getCherries() - 10);
+            saveData.setCurrentScore(saveData.getDeathScore());
             writeSaveData();
             newGame(false, event);
+        }
+    }
+
+    private void readSaveData(){
+
+        try {
+            saveInput = new ObjectInputStream(new FileInputStream("testsave.bin"));
+            saveData = (SaveData) saveInput.readObject();
+        } catch (FileNotFoundException e){
+            saveData = new SaveData(0,0,0, 0);
+        } catch (ClassNotFoundException e) {
+            System.err.println("Error");
+        } catch (IOException e) {
+            System.err.println("IOexception");
+        } finally {
+            if(saveInput != null) {
+                try {
+                    saveInput.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 
