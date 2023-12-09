@@ -8,13 +8,15 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
+import javax.sound.sampled.*;
+import java.io.File;
 import java.io.IOException;
 
 public class Main extends Application {
     // Design patterns used: Factory and Singleton
     // See StickGenerator.java for more info
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
@@ -26,6 +28,13 @@ public class Main extends Application {
             System.out.println(failure.toString());
         }
         System.out.println(result.wasSuccessful());
+
+        File file = new File("bg.wav");
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioInputStream);
+        clip.start();
+        clip.loop(50);
 
     }
 

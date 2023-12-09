@@ -1,5 +1,6 @@
 package com.example.demo2;
 
+
 import com.almasb.fxgl.entity.action.Action;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,7 +20,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import javax.sound.sampled.*;
 import java.io.*;
+import java.io.File;
 import java.util.Objects;
 import java.util.Random;
 
@@ -154,6 +157,30 @@ public class SceneController {
             public void handle(long now) {
                 if (heroImage.getBoundsInParent().intersects(cherry.getBoundsInParent())) {
                     if(!cherry.isGrabbed()){
+                        File file = new File("cherry.wav");
+                        AudioInputStream audioInputStream = null;
+                        try {
+                            audioInputStream = AudioSystem.getAudioInputStream(file);
+                        } catch (UnsupportedAudioFileException e) {
+                            throw new RuntimeException(e);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        Clip clip = null;
+                        try {
+                            clip = AudioSystem.getClip();
+                        } catch (LineUnavailableException e) {
+                            throw new RuntimeException(e);
+                        }
+                        try {
+                            clip.open(audioInputStream);
+                        } catch (LineUnavailableException e) {
+                            throw new RuntimeException(e);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        clip.start();
+
                         cherry.setGrabbed(true);
                         cherry.setVisible(false);
                         setCherryScore(cherryScore + 1);
@@ -167,7 +194,7 @@ public class SceneController {
                                 switchToGameOverScene();
                                 gameIsRunning = false;
                             }
-                        } catch (IOException e) {
+                        } catch (IOException | UnsupportedAudioFileException | LineUnavailableException e) {
                             throw new RuntimeException(e);
                         }
                     }
@@ -403,7 +430,12 @@ public class SceneController {
         }
     }
 
-    public void switchToGameOverScene() throws IOException {
+    public void switchToGameOverScene() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+        File file = new File("boom.wav");
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioInputStream);
+        clip.start();
         score = 0;
         saveData.setCurrentScore(0);
         writeSaveData();
