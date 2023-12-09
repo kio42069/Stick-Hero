@@ -1,5 +1,6 @@
 package com.example.demo2;
 
+import com.almasb.fxgl.entity.action.Action;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -98,6 +99,9 @@ public class SceneController {
         this.score++;
         if(this.score > maxScore)
             maxScore = this.score;
+        saveData.setCurrentScore(score);
+        saveData.setMaxScore(maxScore);
+        writeSaveData();
     }
 
     @FXML
@@ -208,8 +212,7 @@ public class SceneController {
         pausedScene = scene;
     }
 
-    @FXML
-    public void switchToGame(ActionEvent event) throws IOException {
+    private void newGame(boolean hasSave, ActionEvent event) throws IOException{
 
         try {
             saveInput = new ObjectInputStream(new FileInputStream("testsave.bin"));
@@ -218,13 +221,26 @@ public class SceneController {
             saveData = new SaveData(0,0,0);
         } catch (ClassNotFoundException e) {
             System.err.println("Error");
+        } catch (IOException e) {
+            System.err.println("IOexception");
         } finally {
-            if(saveInput != null)
-                saveInput.close();
+            if(saveInput != null) {
+                try {
+                    saveInput.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
 
+        if(hasSave){
+            saveData.setCurrentScore(0);
+        }else{
+            score = saveData.getCurrentScore();
+        }
         writeSaveData();
         cherryScore = saveData.getCherries();
+        maxScore = saveData.getMaxScore();
 
         stickGenerator = StickGenerator.getInstance();
         gameIsRunning = true;
@@ -251,13 +267,13 @@ public class SceneController {
 
         // SCORE
         scoreText = new Text();
-        scoreText.setText(Integer.toString(0));
+        scoreText.setText(Integer.toString(score));
         scoreText.setX(330); scoreText.setY(200);
         scoreText.setFont(Font.font("Comic Sans", 200));
 
         // HIGH SCORE
         maxScoreText = new Text();
-        maxScoreText.setText("MAX: " + 0);
+        maxScoreText.setText("MAX: " + maxScore);
         maxScoreText.setX(600); maxScoreText.setY(90);
         maxScoreText.setFont(Font.font("Comic Sans", 50));
 
@@ -315,12 +331,14 @@ public class SceneController {
             public void handle(KeyEvent keyEvent) {
                 switch (keyEvent.getCode()){
                     case ESCAPE -> {
-                        System.out.println("paused game");
-                        pauseGame();
-                        try {
-                            switchToPausedScene();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
+                        if(gameState == GameState.HERO_IDLE){
+                            System.out.println("paused game");
+                            pauseGame();
+                            try {
+                                switchToPausedScene();
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                     }
                     case Q -> {
@@ -344,6 +362,13 @@ public class SceneController {
         });
         stage.setScene(scene);
         stage.show();
+
+    }
+
+
+    @FXML
+    public void switchToGame(ActionEvent event) throws IOException {
+        newGame(true, event);
     }
 
     public void writeSaveData() {
@@ -364,6 +389,9 @@ public class SceneController {
     }
 
     public void switchToGameOverScene() throws IOException {
+        score = 0;
+        saveData.setCurrentScore(0);
+        writeSaveData();
         gameIsRunning = false;
         if(null == pausedScene){
             root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("game-over-view.fxml")));
@@ -439,14 +467,8 @@ public class SceneController {
     }
 
     @FXML
-    private void saveProgress(){
-        writeSaveData();
-        System.out.println("game saved");
-    }
-
-    @FXML
-    private void loadGame(){
-        System.out.println("game loaded");
+    private void loadGame(ActionEvent event) throws IOException {
+        newGame(false, event);
     }
 
 }
