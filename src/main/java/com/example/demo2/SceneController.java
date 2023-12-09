@@ -1,5 +1,7 @@
 package com.example.demo2;
 
+//TODO: Savefiles
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -92,7 +94,6 @@ public class SceneController {
     @FXML
     private Scene scene;
 
-    boolean pressed = false;
 
     @FXML private Scene gameScene;
 
@@ -145,6 +146,14 @@ public class SceneController {
     private void stickfall(Group grp){
         stick.fallDown(heroImage, stick.getHeight(), pillar, nextPillar, this, grp);
         gameState = GameState.HERO_IDLE;
+    }
+
+    @FXML
+    public void switchToMainMenu() throws IOException {
+        gameIsRunning = false;
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("hello-view.fxml")));
+        scene = new Scene(root);
+        pausedScene = scene;
     }
 
     @FXML
@@ -212,7 +221,6 @@ public class SceneController {
         scene.setOnKeyReleased(new EventHandler<KeyEvent>(){
             @Override
             public void handle(KeyEvent keyEvent){
-                pressed = false;
                 switch(keyEvent.getCode()){
                     case SPACE ->{
                         if(gameState == GameState.STICK_GROWING) {
@@ -223,6 +231,8 @@ public class SceneController {
                 }
             }
         });
+
+
 
 
 //        resetPillars(group, pillar, nextPillar);
@@ -255,7 +265,6 @@ public class SceneController {
                         if(gameState == GameState.HERO_IDLE || gameState == GameState.STICK_GROWING){
                             gameState = GameState.STICK_GROWING;
                             stick.increaseLength();
-                            pressed = true;
                         } else if(gameState == GameState.HERO_MOVING){
                             heroImage.flip();
                         }
