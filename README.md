@@ -4,11 +4,43 @@
 
 ## How to run
 
+This project uses the Maven build system. Make sure it is installed.
+
+```cmd
+mvn clean javafx:run
+```
+
+## Controls
+
+- `SPACE` to grow the stick and flip the hero, depending on the state of the game
+- `Q` to quit
+- `ESCAPE` to pause
+
 ## Class descriptions
+
+### Running
+- Main: Main driver class
+- Menu: Main welcome screen of the game
+- SceneController: Main scene controller for the game scene, paused scene and end scenes
+
+### Visible objects
+- Platform: Class for platforms
+- Stick: Class for the stick which 
+- Cherry: class for cherries.
+- Hero: class for the main character.
+
+### Helper classes
+- GameState and HeroFlipState: state enums for hero movement etc.
+- StickGenerator: Factory class for sticks.
+- JUnitTestClass: Class containing JUnit tests
 
 ## Design patterns used
 
 - "Singleton" design pattern used in StickGenerator
 - "Factory" design pattern used in StickGenerator
 
-## Creative components
+## JUnit tests
+
+- A JUnit test was used to check whether StickGenerator is singleton or not.
+
+## Creative component
