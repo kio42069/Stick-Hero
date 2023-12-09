@@ -77,6 +77,16 @@ public class SceneController {
 
     private int score = 0;
 
+    public int getDeathScore() {
+        return deathScore;
+    }
+
+    public void setDeathScore(int deathScore) {
+        this.deathScore = deathScore;
+    }
+
+    private int deathScore = 0;
+
     private int maxScore = 0;
 
     public int getMaxScore() {
@@ -436,6 +446,7 @@ public class SceneController {
         Clip clip = AudioSystem.getClip();
         clip.open(audioInputStream);
         clip.start();
+        deathScore = score;
         score = 0;
         saveData.setCurrentScore(0);
         writeSaveData();
@@ -519,6 +530,14 @@ public class SceneController {
     }
 
     @FXML
-    private void revive(){}
+    private void revive(ActionEvent event) throws IOException {
+        System.out.println("balls");
+        if(saveData.getCherries() >= 10){
+            saveData.setCurrentScore(deathScore);
+            saveData.setCherries(cherryScore);
+            writeSaveData();
+            newGame(false, event);
+        }
+    }
 
 }

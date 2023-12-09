@@ -34,7 +34,7 @@ public class Main extends Application {
         Clip clip = AudioSystem.getClip();
         clip.open(audioInputStream);
         clip.start();
-        clip.loop(50);
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
 
     }
 
