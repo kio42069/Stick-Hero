@@ -121,13 +121,12 @@ public class Hero extends ImageView {
                 int stickHeight = (int)stick.getHeight() + (int)stick.getX();
                 int pillarLowerBound = (int)nextPillar.getX();
                 int pillarUpperBound = (int)nextPillar.getX() + (int)nextPillar.getWidth();
-                System.out.println(stickHeight + " " + pillarLowerBound + " " + pillarUpperBound);
 
                 if((stickHeight < pillarLowerBound) || (stickHeight > pillarUpperBound)){
                     dead = true;
                 } else {
                     sc.increaseScore();
-                    sc.scoreText.setText("SCORE: " + sc.getScore());
+                    sc.scoreText.setText(Integer.toString(sc.getScore()));
                 }
 
                 if(dead){

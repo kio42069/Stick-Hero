@@ -7,6 +7,17 @@ import javafx.scene.image.ImageView;
 import java.util.Objects;
 
 public class Cherry extends ImageView {
+
+    private boolean isGrabbed = false;
+
+    public boolean isGrabbed() {
+        return isGrabbed;
+    }
+
+    public void setGrabbed(boolean grabbed) {
+        isGrabbed = grabbed;
+    }
+
     Cherry(double X, Group group){
         this.setImage(new Image(Objects.requireNonNull(getClass().getResource("images/cherry.png")).toString()));
         this.setX(X);

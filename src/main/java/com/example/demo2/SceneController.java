@@ -1,7 +1,5 @@
 package com.example.demo2;
 
-//TODO: Savefiles
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -26,19 +24,12 @@ import java.util.Random;
 
 public class SceneController {
 
-    // TODO: death
-    // TODO: death screen
-    // TODO: cherries
-    // TODO: REVIVAL HOLY SHIT
-
-    // TODO: "poisonous cherries"
     public StickGenerator stickGenerator = null;
 
     public Group globalGroup;
 
     public void createNewStick(){
         this.stick = stickGenerator.generateStick();
-        // OO
     }
 
     public GameState getGameState() {
@@ -129,6 +120,24 @@ public class SceneController {
         return cherryScore;
     }
 
+    private void checkCollisions() {
+        javafx.animation.AnimationTimer timer = new javafx.animation.AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                if (heroImage.getBoundsInParent().intersects(cherry.getBoundsInParent())) {
+                    if(!cherry.isGrabbed()){
+                        cherry.setGrabbed(true);
+                        cherry.setVisible(false);
+                        cherryScore++;
+                        cherryScoreText.setText(Integer.toString(cherryScore));
+                    }
+                }
+            }
+        };
+        timer.start();
+    }
+
+
     @FXML
     public void switchToMainMenu(ActionEvent event) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("hello-view.fxml")));
@@ -147,7 +156,6 @@ public class SceneController {
     }
 
     public Rectangle createPillar(Group group){
-        // should end at 190 after animation
         Rectangle ret = new Rectangle();
         Random random = new Random();
         ret.setX(300+random.nextInt(200));
@@ -158,7 +166,6 @@ public class SceneController {
         return ret;
     }
 
-    // lil bro does not wanna work :madge:
     public void resetPillars(Group group){
         this.pillar = this.nextPillar;
         this.nextPillar = createPillar(group);
@@ -183,7 +190,6 @@ public class SceneController {
     public void switchToGame(ActionEvent event) throws IOException {
         stickGenerator = StickGenerator.getInstance();
         gameIsRunning = true;
-//        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("game-view.fxml")));
         Group group = new Group();
         this.globalGroup = group;
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -207,9 +213,22 @@ public class SceneController {
 
         // SCORE
         scoreText = new Text();
-        scoreText.setText("SCORE: " + 0);
-        scoreText.setX(250); scoreText.setY(100);
-        scoreText.setFont(Font.font("Comic Sans", 60));
+        scoreText.setText(Integer.toString(0));
+        scoreText.setX(330); scoreText.setY(200);
+        scoreText.setFont(Font.font("Comic Sans", 200));
+
+        // CHERRY SCORE
+        cherryScoreText = new Text();
+        cherryScoreText.setText(Integer.toString(cherryScore));
+        cherryScoreText.setX(100); cherryScoreText.setY(70);
+        cherryScoreText.setFont(Font.font("Comic Sans", 60));
+
+        // CHERRY ICON FOR SCORE
+        Image cherryImage = new Image(Objects.requireNonNull(getClass().getResource("images/cherry.png")).toString());
+        ImageView cherryImageView = new ImageView();
+        cherryImageView.setImage(cherryImage);
+        cherryImageView.setX(20);cherryImageView.setY(20);
+        cherryImageView.setFitWidth(60);cherryImageView.setFitHeight(60);
 
 
         // RECTANGLE
@@ -229,9 +248,6 @@ public class SceneController {
 
         // STICK
         createNewStick();
-//        stick.setX(180);stick.setY(600);
-//        stick.setWidth(10);stick.setHeight(10);
-
 
         group.getChildren().add(bgImageView);
         group.getChildren().add(cornerText);
@@ -239,6 +255,8 @@ public class SceneController {
         group.getChildren().add(pillar);
         group.getChildren().add(heroImage);
         group.getChildren().add(stick);
+        group.getChildren().addAll(cherryImageView, cherryScoreText);
+        checkCollisions();
         nextPillar = createPillar(group);
         scene.setOnKeyReleased(new EventHandler<KeyEvent>(){
             @Override
@@ -254,13 +272,6 @@ public class SceneController {
                 }
             }
         });
-
-
-
-
-//        resetPillars(group, pillar, nextPillar);
-
-
 
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -299,11 +310,7 @@ public class SceneController {
         stage.show();
     }
 
-
     public void switchToGameOverScene() throws IOException {
-
-        // TODO: revive and reset button
-
         gameIsRunning = false;
         if(null == pausedScene){
             root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("game-over-view.fxml")));
@@ -327,7 +334,6 @@ public class SceneController {
         stage.setScene(scene);
         stage.show();
     }
-
 
     @FXML
     private void switchToPausedScene() throws IOException{
@@ -363,13 +369,11 @@ public class SceneController {
         gameIsRunning = true;
     }
 
-
     @FXML
     protected void onExitButtonClick() {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
     }
-
 
     @FXML
     private void pauseGame(){
@@ -380,7 +384,4 @@ public class SceneController {
     private void resumeGame(){
         gameIsRunning = true;
     }
-
-
-
 }
